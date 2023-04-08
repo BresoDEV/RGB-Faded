@@ -8,52 +8,68 @@ Para modmenus, esse limite pode ultrapassar sem crashar</p>
 <br >
 
 
-```C++
-struct Fade
-{
-	int R;
-	int G; 
-	int B;
-};
-
-Fade RGB_fade(int velocidade = 1, int limiteMaior = 245, int limiteMenor = 5)
-{
-	static int RGB_fadeR,RGB_fadeG,RGB_fadeB;
-	static int Ponto;
-	if (Ponto == 0) { if (RGB_fadeR <= limiteMaior) RGB_fadeR += velocidade; else Ponto = 1; }
-	if (Ponto == 1) { if (RGB_fadeG <= limiteMaior) RGB_fadeG += velocidade; else Ponto = 2; }
-	if (Ponto == 2) { if (RGB_fadeB <= limiteMaior) RGB_fadeB += velocidade; else Ponto = 3; }
-	if (Ponto == 3) { if (RGB_fadeG >= limiteMenor) RGB_fadeG -= velocidade; else Ponto = 4; }
-	if (Ponto == 4) { if (RGB_fadeR >= limiteMenor) { RGB_fadeR -= velocidade; RGB_fadeG += velocidade; } else Ponto = 5; }
-	if (Ponto == 5) { if (RGB_fadeG >= limiteMenor) { RGB_fadeG -= velocidade; } else Ponto = 6; }
-	if (Ponto == 6) { if (RGB_fadeB >= limiteMenor) { RGB_fadeG += velocidade; RGB_fadeB -= velocidade; } else Ponto = 7; }
-	if (Ponto == 7) { if (RGB_fadeR <= limiteMaior && RGB_fadeB <= limiteMaior) { RGB_fadeR += velocidade; RGB_fadeB += velocidade; } else Ponto = 8; }
-	if (Ponto == 8) { if (RGB_fadeR >= limiteMenor) { RGB_fadeR -= velocidade; RGB_fadeG -= velocidade; RGB_fadeB -= velocidade; } else { Ponto = 0; RGB_fadeR = 0; RGB_fadeG = 0; RGB_fadeB = 0; } }
-	return { RGB_fadeR,RGB_fadeG,RGB_fadeB };
-}
-```
-
-
-
-
 
 
 ```C#
-public int R = 0, G = 0, B = 0;
-        public int Ponto = 0;
-        public int Ve = 23;
+ private void timer1_Tick(object sender, EventArgs e)
+        {
+            this.Text = pt.ToString();
+            
+            if (pt >= r.Count -1)
+                pt= 0;
+            else
+            {
+                this.BackColor = Color.FromArgb(255, r[pt], g[pt], b[pt]);
+                pt += Convert.ToInt32(numericUpDown1.Value);
+            }
+           
+        }
 
 
-        void RGB(int velocidade = 1, int limiteMaior = 245, int limiteMenor = 5)
-        {  if (Ponto == 0) { if (R <= limiteMaior) R += velocidade; else Ponto = 1; }
-            if (Ponto == 1) { if (G <= limiteMaior) G += velocidade; else Ponto = 2; }
-            if (Ponto == 2) { if (B <= limiteMaior) B += velocidade; else Ponto = 3; }
-            if (Ponto == 3) { if (G >= limiteMenor) G -= velocidade; else Ponto = 4; }
-            if (Ponto == 4) { if (R >= limiteMenor) { R -= velocidade; G += velocidade; } else Ponto = 5; }
-            if (Ponto == 5) { if (G >= limiteMenor) { G -= velocidade; } else Ponto = 6; }
-            if (Ponto == 6) { if (B >= limiteMenor) { G += velocidade; B -= velocidade; } else Ponto = 7; }
-            if (Ponto == 7) { if (R <= limiteMaior && B <= limiteMaior) { R += velocidade; B += velocidade; } else Ponto = 8; }
-            if (Ponto == 8) { if (R >= limiteMenor) { R -= velocidade; G -= velocidade; B -= velocidade; } else { Ponto = 0; R = 0; G = 0; B = 0; } }
+
+
+List<int> r = new List<int>();
+        List<int> g = new List<int>();
+        List<int> b = new List<int>();
+        public static int pt = 0;
+        private void button5_Click(object sender, EventArgs e)
+        {
+            for (int x = 0; x != 256; x++) r.Add(x);
+            for (int x = 0; x != 256; x++) g.Add(0);
+            for (int x = 0; x != 256; x++) b.Add(0);
+
+            for (int x = 0; x != 256; x++) r.Add(255);
+            for (int x = 0; x != 256; x++) g.Add(x);
+            for (int x = 0; x != 256; x++) b.Add(0);
+
+            for (int x = 255; x >= 0; x--) r.Add(x);
+            for (int x = 0; x != 256; x++) g.Add(255);
+            for (int x = 0; x != 256; x++) b.Add(0);
+
+            for (int x = 0; x != 256; x++) r.Add(0);
+            for (int x = 0; x != 256; x++) g.Add(255);
+            for (int x = 0; x != 256; x++) b.Add(x);
+
+            for (int x = 0; x != 256; x++) r.Add(0);
+            for (int x = 255; x >= 0; x--) g.Add(x);
+            for (int x = 0; x != 256; x++) b.Add(255);
+
+            for (int x = 0; x != 256; x++) r.Add(x);
+            for (int x = 0; x != 256; x++) g.Add(0);
+            for (int x = 0; x != 256; x++) b.Add(255);
+
+            for (int x = 0; x != 256; x++) r.Add(255);
+            for (int x = 0; x != 256; x++) g.Add(x);
+            for (int x = 0; x != 256; x++) b.Add(255);
+
+
+
+            for (int x = 255; x >= 0; x--) r.Add(x);
+            for (int x = 255; x >= 0; x--) g.Add(x);
+            for (int x = 255; x >= 0; x--) b.Add(x);
+
+
+            timer1.Enabled = true;
 
         }
 ```
